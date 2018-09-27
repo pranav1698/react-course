@@ -6,11 +6,16 @@ class Counter extends React.Component{
         this.handleReset = this.handleReset.bind(this);
         this.state = 
         {
-            count: 0,
+            count: 0
             
         }
     }
-    
+    componentDidMount(){        
+        this.setState(() => ({count: parseInt(localStorage.getItem('count'), 10)}))
+    }
+    componentDidUpdate(prevDrops, prevState){
+        if(prevState.count != this.state.count) localStorage.setItem('count', this.state.count);
+    }   
     handleAdd(){
         this.setState((prevState) => {
             return {
@@ -43,7 +48,9 @@ class Counter extends React.Component{
     }
 }
 
-ReactDOM.render(<Counter />, document.getElementById('app'));
+
+ReactDOM.render(<Counter/>, document.getElementById('app'));
+
 
 
 /*let count = 5;
