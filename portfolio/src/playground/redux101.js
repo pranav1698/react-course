@@ -1,5 +1,11 @@
 import { createStore } from 'redux';
-import { type } from 'os';
+
+// action generators:
+
+const increementCount = () => ({
+    type: 'INCREEMENT'
+})        
+    
 
 const store = createStore((state = { count: 0}, action) => {
     switch (action.type) {
@@ -31,9 +37,10 @@ const unsubscribe = store.subscribe(() => {
 })
 
 store.dispatch({
-    type: 'INCREEMENT',
+    type: 'INCREMENT',
     increementBy: 5
 });
+store.dispatch(increementCount());
 store.dispatch({
     type: 'DECREEMENT'
 });
