@@ -1,23 +1,34 @@
 import { createStore } from 'redux';
 
-// action generators:
-
-const increementCount = () => ({
-    type: 'INCREEMENT'
+// action generators: functions that create action object
+const increementCount = ({ increementBy : addingValue = 1}) => ({
+    type: 'INCREEMENT',
+    addingValue
 })        
-    
+
+const decreementCount = ({ decreementBy: result = 1 }) => ({
+    type: 'DECREEMENT',
+    result
+})
+
+const reset = () =>({
+    type: 'RESET'
+})
+
+const set = ({count: number = 1}) => ({
+    type: 'SET',
+    number
+})
 
 const store = createStore((state = { count: 0}, action) => {
     switch (action.type) {
         case 'INCREEMENT':
-            const increementBy = typeof action.increementBy === 'number' ? action.increementBy : 1;
             return {
-                count: state.count + increementBy
+                count: state.count + action.addingValue
             };
         case 'DECREEMENT':
-            const decreementBy = typeof action.decreementBy === 'number' ? action.decreementBy : 1;
             return {
-                count: state.count - decreementBy
+                count: state.count - action.result
             }
         case 'RESET': 
          return {
@@ -25,7 +36,7 @@ const store = createStore((state = { count: 0}, action) => {
          }
          case 'SET':
          return {
-             count: action.count
+             count: action.number
          }
         default:
             return state;
@@ -36,22 +47,26 @@ const unsubscribe = store.subscribe(() => {
     console.log(store.getState());
 })
 
-store.dispatch({
-    type: 'INCREMENT',
+/* store.dispatch({
+    type: 'INCREEMENT',
     increementBy: 5
 });
-store.dispatch(increementCount());
-store.dispatch({
-    type: 'DECREEMENT'
-});
-store.dispatch({
+ */
+
+store.dispatch(increementCount({ increementBy: 5 }));
+store.dispatch(decreementCount({ decreementBy: 10 }));
+store.dispatch(reset());
+store.dispatch(set({count: 101}));
+/* store.dispatch({
     type: 'DECREEMENT',
     decreementBy: 10
-});
-store.dispatch({
+}); */
+
+/* store.dispatch({
     type: 'RESET'
-});
-store.dispatch({
+}); */
+/* store.dispatch({
     type:'SET',
     count: 101
 })
+ */
